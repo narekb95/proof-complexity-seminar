@@ -1,0 +1,107 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[t,usenames,dvipsnames]{beamer}
+\mode<presentation> {
+\usetheme{Boadilla}
+\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\title[space vs. width in resolution]
+{Small space in resolution calculus implies small width
+\texorpdfstring{\footnote{\tiny Filmus et al., From Small Space to Small Width in Resolution, ACM Trans.
+Comput., 2015.}}}
+
+\author{Narek Bojikian} % Your name
+\institute[hu-berlin] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+Humboldt University of Berlin\\ % Your institution for the title page
+\medskip
+\textit{bojikian@informatik.hu-berlin.de} % Your email address
+}
+\date{10.07.2020} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+\begin{frame} \frametitle{Introduction}
+	\begin{itemize}[<+->]
+		\item Literals, clauses, terms and normal forms.
+			\begin{itemize}[<+->]
+				\item A set of boolean-variables $V = \{x, y, z\}$.
+				\item Literals are negative and positive variables,\\
+					\hspace{1cm} eg. $x, \overline y$.
+				\item A clause
+					\footnote{Clauses and terms are usually written as sets of
+						literals, when it is clear from the context which of
+					the two we are dealing with}
+					is an ``or''-gate over a set of literals,\\
+					\hspace{1cm} 
+					eg . $C = \{x, \overline y\}$.
+				\item A term is an ``and''-gate over a set of literals.
+				\item ``Conjunctive Normal Form'' (CNF)\\
+				\item[]	\hspace{1cm}A set of clauses -
+					representing an ``and''-gate over them,\\
+					\hspace{1cm} eg. $F := \{ \{x, y\}, \{\overline y, z\}\}$.
+				\item ``Disjunctive Normal Form'' (DNF)\\
+				\item[]	\hspace{1cm}A set of terms -
+					representing an ``or''-gate over them.
+			\end{itemize}
+		\item Assignments.
+			\begin{itemize}
+				\item Boolean functions $\alpha: V \rightarrow \{0, 1\}$.
+				\item $\alpha$ ``staisfies'' a circuit $F$ ($\alpha \models F$), if
+					$\alpha(F) = 1$ 
+			\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+\begin{frame}\frametitle{Introduction (Cont.)}
+	define resolution, allowed rules, refutations, refutation width and space 
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}
+	\frametitle{Space is as a lower-bonud for width}
+	define neg(C).
+
+	state the theorem in a block and prove it (maximal two extra frames)
+
+	Add a drawing
+\end{frame}
+\begin{frame}[c]
+	\color{NavyBlue} \centering \Large \textbf{
+	Lowerbounds\\on the space of a resolution-refuataion.}
+\end{frame}
+\begin{frame} \frametitle{T-Joins and Tseitin formulas}
+	definitions
+\end{frame}
+\begin{frame} \frametitle{Tseitin formulas have large width}
+	Complexity measure and intermediate
+
+	result in lemma  as block
+\end{frame}
+\begin{frame} \frametitle{Tseitin formulas have large width (Cont.)}
+	State theorem as a block and write down proof.
+\end{frame}
+\begin{frame} \frametitle{Conclusion}
+	
+\end{frame}
+
+\end{document} 
