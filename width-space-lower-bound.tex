@@ -45,38 +45,88 @@ Humboldt University of Berlin\\ % Your institution for the title page
 	\begin{itemize}[<+->]
 		\item Literals, clauses, terms and normal forms.
 			\begin{itemize}[<+->]
-				\item A set of boolean-variables $V = \{x, y, z\}$.
-				\item Literals are negative and positive variables,\\
-					\hspace{1cm} eg. $x, \overline y$.
-				\item A clause
-					\footnote{Clauses and terms are usually written as sets of
-						literals, when it is clear from the context which of
-					the two we are dealing with}
-					is an ``or''-gate over a set of literals,\\
-					\hspace{1cm} 
-					eg . $C = \{x, \overline y\}$.
-				\item A term is an ``and''-gate over a set of literals.
-				\item ``Conjunctive Normal Form'' (CNF)\\
-				\item[]	\hspace{1cm}A set of clauses -
-					representing an ``and''-gate over them,\\
-					\hspace{1cm} eg. $F := \{ \{x, y\}, \{\overline y, z\}\}$.
-				\item ``Disjunctive Normal Form'' (DNF)\\
-				\item[]	\hspace{1cm}A set of terms -
-					representing an ``or''-gate over them.
+				\item Let $V = \{x, y, z\}$ be set of boolean-variables.
+				\item Literals are negative and positive variables,
+					\hspace{1cm} e.g. $x, \overline y,\dots$.
+				\item A clause is a disjunction of literals,
+					\hspace{1cm} e.g. $C = x \lor \overline y$.
+				\item A term is conjunction literals,
+					\hspace{1cm} e.g. $T = x \land \overline y$.
+				\item A CNF formula is a conjunction of clauses.\\
+					\hspace{1cm} e.g. $F := \{ \{x, y\}, \{\overline y, z\}\}$.
+				\item A DNF
+					\footnote{\uncover<8->{We write Clauses, terms and normal forms
+					as sets and differentiate between them from the context,
+					e.g. we write the clause $(x \lor \overline y)$ as $\{x,
+					\overline y\}$}.} formula is a disjunction of terms.\\
+				\item[]
+				\item[--] A clause $C$ subsumes another clause $C'$ if $C \subseteq C'$.
+				\item[--] We denote the empty clause by $\bot$ and the empty term
+					by $\emptyset$.
 			\end{itemize}
 		\item Assignments.
 			\begin{itemize}
 				\item Boolean functions $\alpha: V \rightarrow \{0, 1\}$.
-				\item $\alpha$ ``staisfies'' a circuit $F$ ($\alpha \models F$), if
+				\item $\alpha$ ``staisfies'' a circuit $F$ ( i.e. $\alpha \models F$), if
 					$\alpha(F) = 1$ 
 			\end{itemize}
 	\end{itemize}
 	
 \end{frame}
-\begin{frame}\frametitle{Introduction (Cont.)}
-	define resolution, allowed rules, refutations, refutation width and space 
+\begin{frame}\frametitle{Introduction (Cont.) - Resolution proof}
+	\begin{itemize}[<+->]
+		\item A resolution configuration is a set of clauses.
+		\item A resolution refutation of a CNF formula.
+		\item Complexity measures of refuting formulas.
+	\end{itemize}
+	\only<2>{
+		\vspace{-.5cm}
+		\begin{block}{Resolution refutation}
+		A resolution refutation of a CNF-Formula $F$ is a sequence of configuration
+		$\mathbb{C}_0 \dots \mathbb{C}_{\tau}$ such that:
+		\begin{itemize}
+			\item $\mathbb{C}_0 = \emptyset$.
+			\item $\bot \in \mathbb{C}_{\tau}$.
+			\item $\mathbb{C}_i$ results from $\mathbb{C}_{i-1}$ by one of the following
+				rules:
+				\begin{itemize}
+					\item[--] Axiom download. $\mathbb{C}_i = \mathbb{C}_{i-1} \cup
+						\{A\}$, where $A \in F$ and $ A \notin
+						\mathbb{C}_{i-1}$.
+					\item[--] Erasure. $\mathbb{C}_i = \mathbb{C}_{i-1} \setminus
+						\{A\}$, where $A \in \mathbb{C}_{i-1}$.
+					\item[--] Inference. $\mathbb{C}_i = \mathbb{C}_{i-1} \cup
+						\{A\}$, where $A \notin \mathbb{C}_{i-1}$ inferred
+						by one of the following rules (here $\alpha$ denote
+						a literal and $G, H$ denote clauses.
+						\begin{itemize}
+							\item
+				$\displaystyle \frac{\overline{\alpha} \lor G \quad \alpha \lor H}{G \lor H}$
+							\item 
+				$\displaystyle \frac{G}{G\lor H}$ for an any clause $H$.
+						\end{itemize}
+				\end{itemize}
+		\end{itemize}
+	\end{block}}
+	\only<3-7>{
+		\begin{block}{Complexity measures of a refutation}
+			Let $\pi$ be a resolution refutation of a CNF formula $F$. We define the
+			following complexity terms of $\pi$:
+			\begin{itemize}[<+->]
+				\item Length $L(\pi)$: the number of axiom-download and
+					inference steps in $\pi$.
+				\item Space $Sp(\pi)$: the maximum number of clauses in a
+					configuration in $\pi$.
+				\item Width $W(\pi)$: the size of the largest clause in $\pi$.
+			\end{itemize}
+			\uncover<7>{
+			The length ($L(F \vdash \bot)$) of refuting $F$ is the minimum length of a 
+			refutation of $F$. In an analogous way we define the space $Sp(F \vdash
+		\bot)$ and the width $W(F \vdash \bot)$ of refuting $F$.}
+		\end{block}
+	}
 \end{frame}
-%----------------------------------------------------------------------------------------
+
 \begin{frame}
 	\frametitle{Space is as a lower-bonud for width}
 	define neg(C).
