@@ -21,6 +21,7 @@
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{cancel}
 
 \title[space vs. width in resolution]
 {Small space in resolution calculus implies small width
@@ -63,6 +64,8 @@ Humboldt University of Berlin\\ % Your institution for the title page
 				\item[--] A clause $C$ subsumes another clause $C'$ if $C \subseteq C'$.
 				\item[--] We denote the empty clause by $\bot$ and the empty term
 					by $\emptyset$.
+				\item[--] A k-CNF (k-DNF) Formula is a CNF (DNF) formula where each
+					clause (term) has at most $k$ literals.
 			\end{itemize}
 		\item Assignments.
 			\begin{itemize}
@@ -77,14 +80,12 @@ Humboldt University of Berlin\\ % Your institution for the title page
 	\begin{itemize}[<+->]
 		\item A resolution configuration is a set of clauses.
 		\item A resolution refutation of a CNF formula.
-		\item Complexity measures of refuting formulas.
+		\item[]
 	\end{itemize}
-	\only<2>{
-		\vspace{-.5cm}
-		\begin{block}{Resolution refutation}
+	\uncover<3->{ \vspace{-.5cm}\begin{block}{Resolution refutation}
 		A resolution refutation of a CNF-Formula $F$ is a sequence of configuration
 		$\mathbb{C}_0 \dots \mathbb{C}_{\tau}$ such that:
-		\begin{itemize}
+		\begin{itemize}[<+->]
 			\item $\mathbb{C}_0 = \emptyset$.
 			\item $\bot \in \mathbb{C}_{\tau}$.
 			\item $\mathbb{C}_i$ results from $\mathbb{C}_{i-1}$ by one of the following
@@ -108,50 +109,131 @@ Humboldt University of Berlin\\ % Your institution for the title page
 				\end{itemize}
 		\end{itemize}
 	\end{block}}
-	\only<3-7>{
-		\begin{block}{Complexity measures of a refutation}
-			Let $\pi$ be a resolution refutation of a CNF formula $F$. We define the
-			following complexity terms of $\pi$:
-			\begin{itemize}[<+->]
-				\item Length $L(\pi)$: the number of axiom-download and
-					inference steps in $\pi$.
-				\item Space $Sp(\pi)$: the maximum number of clauses in a
-					configuration in $\pi$.
-				\item Width $W(\pi)$: the size of the largest clause in $\pi$.
-			\end{itemize}
-			\uncover<7>{
-			The length ($L(F \vdash \bot)$) of refuting $F$ is the minimum length of a 
-			refutation of $F$. In an analogous way we define the space $Sp(F \vdash
-		\bot)$ and the width $W(F \vdash \bot)$ of refuting $F$.}
-		\end{block}
-	}
 \end{frame}
 
+\begin{frame}\frametitle{Complexity measure of a resolution proof}
+	\begin{block}{Complexity measures of a refutation}
+		Let $\pi$ be a resolution refutation of a CNF formula $F$. We define the
+		following complexity terms of $\pi$:
+		\begin{itemize}[<+->]
+			\item Length $L(\pi)$: the number of axiom-download and
+				inference steps in $\pi$.
+			\item Space $Sp(\pi)$: the maximum number of clauses in a
+				configuration in $\pi$.
+			\item Width $W(\pi)$: the size of the largest clause in $\pi$.
+		\end{itemize}
+		\uncover<4->{
+		The length ($L(F \vdash \bot)$) of refuting $F$ is the minimum length of a
+		refutation of $F$.}
+		
+		\uncover<5->{In an analogous way we define the space $Sp(F \vdash \bot)$ and the
+		width $W(F \vdash \bot)$ of refuting $F$.}
+	\end{block}
+\end{frame}
+\begin{frame}\frametitle{Example - Resolution refutation}
+	$F = \{ \{a, b\}, \{\overline a\}, \{\overline b\}\}.$ \pause
+	\begin{center}
+	\begin{tabular}{p{.45\textwidth}|p{.45\textwidth}}
+		Refutation  $(\pi)$ & Rule\\ 
+		\midrule
+		$\emptyset$ &\\
+		$\{\{a, b\}\}$ & Axiom Download\\
+		$\{\{a, b\}, \{\overline a\}\}$ & Axiom Download\\
+		$\{\{a, b\}, \{\overline a\}, \{b\}\}$ & Inference\\
+		$\{\{b\}\}$ & Erasure\\
+		$\{\{b\}, \{\overline b\}$ & Axiom Download\\
+		$\{\} = \bot$& Inf.+Er.\\
+	  \end{tabular}
+	\end{center} \pause
+	\begin{itemize}[<+->]
+		\item $L(\pi) = 5$.
+		\item $Sp(\pi) = 3$.
+		\item $W(\pi) = 2$.
+	\end{itemize}
+\end{frame}
 \begin{frame}
 	\frametitle{Space is as a lower-bonud for width}
-	define neg(C).
+	\begin{block} {Theorem~3.1 [cf. Atserias and Dalmau, 2008]}
+		Let $F$ be a $k$-CNF formula and let $\pi:F\vdash \bot$ be a resolution refutation
+		in clause space $Sp(\pi) = s$. Then, there is a resolution refutation $\pi'$ of $F$
+		in width $W(\pi') \leq s + k - 3$.
+	\end{block}
+	Proof idea and example:
 
-	state the theorem in a block and prove it (maximal two extra frames)
-
-	Add a drawing
+	\pause
+	\only<2-5>{
+		\begin{itemize}[<+->]
+		\item  Negate each configuration in the refutation.
+		\item  Rewrite resulting formulas as configurations.
+		\item[--] Width is bounded by number of clauses in a configuration (space).
+		\item The resulting sequence in \textbf{backward} order is (almost) a valid
+			refutation.
+	\end{itemize}}
+	\only<6>{ $F = \{ \{a, b\}, \{\overline a\}, \{\overline b\}\}.$ \pause
+	\begin{center}
+	\begin{tabular}{p{.25\textwidth}|p{.2\textwidth}|p{.27\textwidth}}
+		Refutation &  Negation & Neg. as a conf.\\ 
+			\midrule
+		$\emptyset$ & $\bot$ & $\bot$\\
+		%
+		$\{\{a, b\}\}$ &
+		$\overline a \land \overline b$&
+		$\{\{\overline a\}, \{\overline b\}\}$\\
+		%
+		$\{\{a, b\}, \{\overline a\}\}$&
+		$(\overline a \land \overline b)\lor a$&
+		$\{\cancel{\{\overline a, a\}}, \{\overline b, a\}\}$\\
+		%
+		$\{\{a, b\}, \{\overline a\}, \{b\}\}$& 
+		$(\overline a \land \overline b) \lor a \lor \overline b$&
+		$\{\cancel{\{\overline a, a, \overline b\}}, \{\overline b, a, \overline b\}\}$\\
+		%
+		$\{\{b\}\}$&
+		$\overline b$&
+		$\{\{\overline b\}\}$\\
+		%
+		$\{\{b\}, \{\overline b\}\}$&
+		$\overline b \lor b$&
+		$\{\cancel{\{\overline b, b\}}\} = \emptyset$\\
+		%
+		$\{\} = \bot$& $\emptyset$ & $\emptyset$\\
+	\end{tabular}
+	\end{center}}
 \end{frame}
+
+\begin{frame}\frametitle{Theorem~3.1 - Formal proof}
+	define neg(C) and tell the meaning of it  (state both def and prep.)
+
+	discuss what happens in case of axiom download
+
+	prove the theorem (maximal two extra frames)
+\end{frame}
+
+\begin{frame}\frametitle{Generalization to r-DNF resolution}
+	define r-DNF resolution and introduce the extra rules
+\end{frame}
+
 \begin{frame}[c]
 	\color{NavyBlue} \centering \Large \textbf{
 	Lowerbounds\\on the space of a resolution-refuataion.}
 \end{frame}
+
 \begin{frame} \frametitle{T-Joins and Tseitin formulas}
 	definitions
 \end{frame}
+
 \begin{frame} \frametitle{Tseitin formulas have large width}
-	Complexity measure and intermediate
+	Complexity measure and configuration existence with intermediate measure
 
 	result in lemma  as block
 \end{frame}
+
 \begin{frame} \frametitle{Tseitin formulas have large width (Cont.)}
 	State theorem as a block and write down proof.
 \end{frame}
-\begin{frame} \frametitle{Conclusion}
-	
+
+\begin{frame} \frametitle{Conclusions}
+polynomial proofs?	
 \end{frame}
 
 \end{document} 
