@@ -266,8 +266,9 @@ Humboldt University of Berlin\\ % Your institution for the title page
 		\nconf{\mathbb{C}}$ there exists a clause $C' \in \nconf{\mathbb{C}'}$ such that $C$
 		is a weakening of $C'$.
 	\end{block}
-	Remark. This ensures that erasure and inference steps do not increase the width of the
-	refutation.
+	\pause
+	Remark. This ensures that erasure and inference do not increase the width over the maximum
+	width of a clause in a refutation (i.e. at most $s$).
 	\pause
 	\begin{itemize}[<+->]
 		\item Let $\pi = (\mathbb{C}_0, \mathbb{C}_1, \dots \mathbb{C}_{\tau})$.
@@ -360,6 +361,7 @@ Humboldt University of Berlin\\ % Your institution for the title page
 	\pause
 	\uncover<4->{
 		\begin{itemize}[<+->]
+			\item $s \geq s + k - 3$.
 			\item Remove all weakening steps (inference and erasure).
 			\item Make sure that the resulting refutation $\pi''$ is is still valid.
 			\item Width is now $\max \{k, s+k-3\} = s+k-3$.
