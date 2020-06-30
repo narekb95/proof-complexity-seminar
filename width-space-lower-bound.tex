@@ -25,7 +25,7 @@
 \usepackage{bussproofs}
 \usepackage{proof}
 
-\newcommand {\nconf}[1]{\operatorname{neg}({#1})}
+\newcommand {\nconf}{\operatorname{neg}}
 
 \title[space vs. width in resolution]
 {Small space in resolution calculus implies small width
@@ -206,34 +206,34 @@ Humboldt University of Berlin\\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}\frametitle{Theorem~3.1 Proof sketch}
-	\begin{block} {Negated configuration ($\nconf{\mathbb{C}}$)}
-		$\nconf{\mathbb{C}}$ of a clause configuration $\mathbb{C}$ is recursively defined
+	\begin{block} {Negated configuration ($\nconf(\mathbb{C})$)}
+		$\nconf(\mathbb{C})$ of a clause configuration $\mathbb{C}$ is recursively defined
 		as follows:
 		\vspace{-.3cm}
 		\pause
 		\begin{alignat*}{3}
-			&\nconf{\emptyset} = \{\bot\}&&\\
+			&\nconf(\emptyset) = \{\bot\}&&\\
 			%
 			\uncover<3->{
-			&\nconf{\mathbb{C} \cup \{C\}} =&& \{\underbrace{D \lor \overline a | D \in
-					\nconf{\mathbb{C}}; a \in C \setminus D }_{(*)};\\
-			& &&\underbrace{\not \exists B \in \nconf{\mathbb{C}} s.t. B \lor \overline a \not
-	\subseteq D \lor \overline a}_{(**)}\}.}
+			&\nconf(\mathbb{C} \cup \{C\}) =&& \{\underbrace{D \lor \overline a | D \in
+					\nconf(\mathbb{C}); a \in C \setminus D }_{(*)};\\
+			& &&\underbrace{\not \exists B \in \nconf(\mathbb{C}) s.t. B \lor \overline
+				a \varsubsetneq D \lor \overline a}_{(**)}\}.}
 		\end{alignat*}
 	\end{block}
 	\pause 
 	\pause
 	\begin{itemize}[<+->]
-		\item The part $(*)$ represents one clause of $\nconf{\mathbb{C}}$ as seen in the
+		\item The part $(*)$ represents one clause of $\nconf(\mathbb{C})$ as seen in the
 			previous example (due to distributivity of $\lor$).
 		\item The part $(**)$ ensures the minimality (inclusion wise) of the clauses and
-			hence no trivial or subsummed clauses are contained in $\nconf{\mathbb{C}}$.
+			hence no trivial or subsummed clauses are contained in $\nconf(\mathbb{C})$.
 	\end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{Theorem~3.1. Proof sketch (Cont.)}
 	\begin{block}{Observation~3.3.}
-		The width of any clause in the negated configuration $\nconf{\mathbb{C}}$ is at most
+		The width of any clause in the negated configuration $\nconf(\mathbb{C})$ is at most
 		$Sp(\mathbb{C}_t) = |\mathbb{C}|$.
 	\end{block}
 	\pause
@@ -241,29 +241,29 @@ Humboldt University of Berlin\\ % Your institution for the title page
 	each clause inthe negated configuration.\hfill $\square$}
 	\pause
 	\begin{block}{Proposition~3.4.}
-		The negated configuration $\nconf{\mathbb{C}}$ is the set of all minimal
+		The negated configuration $\nconf(\mathbb{C})$ is the set of all minimal
 		(nontrivial) clauses $C$ such that $\lnot C$ implies the configuration $\mathbb{C}$.
 		That is,
 		\vspace{-.3cm}
-		$$\nconf{\mathbb{C}} = \{C|\lnot C \models \mathbb{C} \text{ and for every } C' \not
-		\subseteq C \text{ it holds that } \lnot C' \not \models \mathbb{C}.\}$$
+		$$\nconf(\mathbb{C}) = \{C|\lnot C \models \mathbb{C} \text{ and for every } C'
+		\varsubsetneq C \text{ it holds that } \lnot C' \not \models \mathbb{C}.\}$$
 	\end{block}
 	\pause
 	\only<4>{ \noindent Proof Idea. Let $\mathbb{D}$ be the set of minimal clauses whose complements imply
-	$\mathbb{C}$. Show that for $C \in \nconf{\mathbb{C}}$ there is a $C' \in \mathbb{D}$ such
+	$\mathbb{C}$. Show that for $C \in \nconf(\mathbb{C})$ there is a $C' \in \mathbb{D}$ such
 	that $C' \subseteq C$ and vise versa. Since both sets contain only minimal clauses, the
 	claim follows.}
 	\pause
 	\only<5->{ \begin{block}{Observatoin~3.5.}
 		An assignment satisfies a clause configuration $\mathbb{C}$ if and only if it
-		falsifies the negated clause configuration $\nconf{\mathbb{C}}$. That is,
-		$\mathbb{C}$ is logically equivalent to $\lnot \nconf{\mathbb{C}}$.
+		falsifies the negated clause configuration $\nconf(\mathbb{C})$. That is,
+		$\mathbb{C}$ is logically equivalent to $\lnot \nconf(\mathbb{C})$.
 	\end{block}}
 \end{frame}
 \begin{frame}\frametitle{Theorem 3.1. Proof sketch (Cont. 2)}
 	\begin{block}{Lemma~3.6.}
 		If $\mathbb{C} \models \mathbb{C}'$, then for every clause $C \in
-		\nconf{\mathbb{C}}$ there exists a clause $C' \in \nconf{\mathbb{C}'}$ such that $C$
+		\nconf(\mathbb{C})$ there exists a clause $C' \in \nconf(\mathbb{C}')$ such that $C$
 		is a weakening of $C'$.
 	\end{block}
 	\pause
@@ -273,7 +273,7 @@ Humboldt University of Berlin\\ % Your institution for the title page
 	\begin{itemize}[<+->]
 		\item Let $\pi = (\mathbb{C}_0, \mathbb{C}_1, \dots \mathbb{C}_{\tau})$.
 		\item Let $\pi' = (\mathbb{D}_{\tau}, \dots, \mathbb{D}_0), \mathbb{D}_i =
-			\nconf{\mathbb{C}_i}$.
+			\nconf(\mathbb{C}_i)$.
 		\item $\bot \in \mathbb{D}_0$ and $\mathbb{D}_{\tau} = \emptyset$.
 		\item {\color{red}Assume} for now that $k \geq 3$.
 		\item If $\mathbb{C}_{t-1} \models \mathbb{C}_{t}$ (Lemma~3.6.),
@@ -370,7 +370,66 @@ Humboldt University of Berlin\\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}\frametitle{Generalization to r-DNF resolution}
-	define r-DNF resolution and introduce the extra rules
+	\begin{itemize}[<+->]
+		\item A CNF-Formula can be seen as a conjunction over 1-DNF formulas.
+		\item Let $r \in \mathbb{N}_{\geq 1}$.
+		\item A more general proof system ``$\mathcal{R}(r)$-Resolution'':
+		\begin{itemize}
+			\item $\mathcal{R}(r)$-Configurations: Sets of $r$-DNF Formulas.
+				constant.
+			\item Erasure and Axiom download steps.
+			\item Inference rules: (for clauses $G, H$ and terms $T, T'$)
+			\begin{itemize}
+				\item r-cut. $\displaystyle \frac{(a_1\land\dots \land a_{r'})\lor G
+					\qquad \overline{a}_1 \lor \dots \lor \overline{a}_{r'} \lor
+					H}{G\lor H}, \text{ where }r'\leq r$.
+				\item Weakening $\displaystyle \frac{G}{G\lor H}, \text{ for any
+					r-DNF } H.$
+				\item $\land$-introduction $\displaystyle \frac{G\lor T \qquad G
+					\lor T'}{G \lor (T \land T')} \text{ for }
+					|T\cup T'| \leq r$.
+				 \item $\land$-elimination $\displaystyle \frac{G\lor T}{G \lor T'}
+					 \text{ for nonempty } T' \subseteq T$.
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+
+	\pause
+	\underline{Remark:} r-cut and weakening correspond to inference rules in Resolution
+\end{frame}
+\begin{frame}{r-DNF Refutation - Analogy}
+	\begin{block}{Theorem~3.7.}
+		Let $F$ be a $k$-CNF formula and $\pi : F \vdash \bot$ be an $r$-DNF resolution
+		refutation of $F$ in space $Sp(\pi) \leq s$. Then there exists a resolution
+		refutation $\pi'$ of $F$ in width at most $W(\pi') \leq (s-2)r + k -1$.
+	\end{block}
+	\pause
+	Proof Idea.
+	\begin{itemize}[<+->]
+		\item Define $\nconf_{\mathcal{R}(r)}(\mathbb{C})$ recursively as follows:
+		\item[] $\nconf_{\mathcal{R}(r)}(\emptyset) = \{\bot\}$.
+		\item[] $\nconf_{\mathcal{R}(r)}(\mathbb{C}\cup \{C\}) = \{D \lor \overline T| D \in
+				\nconf_{\mathcal{R}(r)}(\mathbb{C}); T \in C;$\\
+				\hspace{1cm} $\not\exists B \in \nconf_{\mathcal{R}(r)}(\mathbb{C})
+				\text{ s.t. } B \lor \overline T \varsubsetneq D \lor \overline T ;
+				D\lor \overline T \text{ nontrivial}\}$.
+		\item $\nconf_{\mathcal{R}(r)}(\mathbb{C})$ is the set of all
+			\textbf{minimal} clauses $D$ such that $\lnot D \models \mathbb{C}$.
+			(Considering Terms as literals)
+	\end{itemize}
+\end{frame}
+\begin{frame}{r-DNF Refutation (Cont.)}
+	\begin{itemize}[<+->]
+		\item An $r$-DNF configuration of space $s$ can be easily transformed into a
+			resolution configuration of width $sr$.
+		\item Axiom downloads can be handled the same way ($F$ is still a $k$-CNF).
+		\item Inference and Erasure steps are done in the same way as Lemma~3.6.
+		\item The negated $r$-DNF resolution-refutation in the backward order implies a
+			resolution refutation.
+		\item The width of this refutation can be bounded in $(s-2)r + k - 1$.
+		\item For $k < 2r + 1$ an additional pruning step is analogously required
+			(eliminating all weakening steps).
+	\end{itemize}
 \end{frame}
 
 \begin{frame}[c]
