@@ -122,17 +122,25 @@ Humboldt University of Berlin\\ % Your institution for the title page
 		\begin{itemize}[<+->]
 			\item Length $L(\pi)$: the number of axiom-download and
 				inference steps in $\pi$.
-			\item Space $Sp(\pi)$: the maximum number of clauses in a
-				configuration in $\pi$.
+			\item Clause space $Sp(\pi)$: the max. number of clauses in a
+				configuration.
 			\item Width $W(\pi)$: the size of the largest clause in $\pi$.
+			\item Depth $D(\pi)$: the maximum length of a root-leaf path in the
+				derivation tree (excluding erasure).
 		\end{itemize}
-		\uncover<4->{
+
+		\pause%
 		The length ($L(F \vdash \bot)$) of refuting $F$ is the minimum length of a
-		refutation of $F$.}
+		refutation of $F$.
 		
-		\uncover<5->{In an analogous way we define the space $Sp(F \vdash \bot)$ and the
-		width $W(F \vdash \bot)$ of refuting $F$.}
+		\pause%
+		In an analogous way we define the space $Sp(F \vdash \bot)$, the width $W(F
+		\vdash \bot)$ and the depth $D(F \vdash \bot)$ of refuting $F$.
 	\end{block}
+
+	\pause
+	\noindent \underline{Note.} A Configuration $\mathbb{C}_i$ at a step $i$ is the set of all
+	clauses we derive up to the step $t$ that will be needed after the step $t$.
 \end{frame}
 \begin{frame}\frametitle{Example - Resolution refutation}
 	$F = \{ \{a, b\}, \{\overline a\}, \{\overline b\}\}.$ \pause
@@ -145,15 +153,32 @@ Humboldt University of Berlin\\ % Your institution for the title page
 		$\{\{a, b\}, \{\overline a\}\}$ & Axiom Download\\
 		$\{\{a, b\}, \{\overline a\}, \{b\}\}$ & Inference\\
 		$\{\{b\}\}$ & Erasure\\
-		$\{\{b\}, \{\overline b\}$ & Axiom Download\\
-		$\{\} = \bot$& Inf.+Er.\\
+		$\{\{b\}, \{\overline b\}\}$ & Axiom Download\\
+		$\bot$& Inf.+Er.\\
 	  \end{tabular}
 	\end{center} \pause
 	\begin{itemize}[<+->]
 		\item $L(\pi) = 5$.
 		\item $Sp(\pi) = 3$.
 		\item $W(\pi) = 2$.
+		\item $D(\pi) = 2$
 	\end{itemize}
+\end{frame}
+\begin{frame}\frametitle{Space is a lower-bound on depth}
+	\begin{block}{Proposition}
+		For each derivation of depth at most $k$ there is a derivation of clause-space at
+		most $k$.
+	\end{block}
+	\pause
+	\begin{itemize}[<+->]
+		\item Use the derivation tree to build a new derivation of bounded space.
+		\item Recursively build each sub-tree with bounded space and remove all but the last
+			clause.
+	\end{itemize}
+	\pause
+	\noindent \textbf{\underline{Remark.}} Meanwhile the length has an exponential lower-bound,
+	it is not hard to show that the clause-space, the width and the depth are bounded in a
+	linear function in the number of the variables.
 \end{frame}
 \begin{frame}
 	\frametitle{Space is as a lower-bonud for width}
@@ -437,22 +462,53 @@ Humboldt University of Berlin\\ % Your institution for the title page
 	Lowerbounds\\on the space of a resolution-refuataion.}
 \end{frame}
 
-\begin{frame} \frametitle{T-Joins and Tseitin formulas}
-	definitions
+\begin{frame} \frametitle{T-Joins}
+	\begin{itemize}[<+->]
+		\item Undirected graph $G = (V, E)$ and $T \subseteq V$.
+		\item Find a set of edges $J$ s.t.
+			$$
+			|\delta_J(v)| \equiv_2
+			\begin{cases}
+				1&; v \in T\\
+				0&; \text{Otherwise}
+			\end{cases}
+			$$
+		\item No solution if $T$ is \textbf{odd} (why?).
+		\item Connected Graphs $G$ admit $T$-joins for \textbf{even} $|T|$ (why?).
+		\item Can be written as a system of linear equations.
+	\end{itemize}
+	\begin{center}
+		\includegraphics[width=0.35\linewidth]{graph.eps}
+	\end{center}
+\end{frame}
+\begin{frame}{Tseitin Formulas}
+	$T$-join instance $(G, T)$ as a system of linear equation.
+	\pause
+	\begin{itemize}[<+->]
+		\item Variables correspond to edges $x_e \in \{0, 1\}$ for all $e \in E$.
+		\item Define a function $\chi_{_T}: V \rightarrow \{0, 1\}, \chi_{_T}(v)=0$ iff $v
+			\in T$.
+		\item Let  $L_{v, \chi}$ be the equation
+		$$\sum\limits_{e \in \delta(v)} x_e + \chi(v) = 0 \mod 2$$
+		\item Let $\operatorname{PARITY}_{v, \chi}$ be the canonical CNF-formula
+			corresponding to  $L_{v, \chi}$.
+		\item For $d = \max\limits_{v \in V}\{|\delta(v)|\}$, the formula
+			$\operatorname{PARITY}_{v, \chi}$ is a $d$-CNF formula with at most
+			$2^{d-1}$ Clauses (why?).
+		\item $T_s(G, \chi_{_T}) := \bigwedge_{v \in V} \operatorname{PARITY}_{v,
+			\chi_{_T}}$, the Tseitin formula over $G$ and $T$.
+	\end{itemize}
+\end{frame}
+\begin{frame}{Edge expander}
+	
 \end{frame}
 
-\begin{frame} \frametitle{Tseitin formulas have large width}
-	Complexity measure and configuration existence with intermediate measure
-
-	result in lemma  as block
+\begin{frame} \frametitle{Complexity Measure}
 \end{frame}
 
-\begin{frame} \frametitle{Tseitin formulas have large width (Cont.)}
-	State theorem as a block and write down proof.
+\begin{frame} \frametitle{Tseitin formulas have large space}
+	\pause \vfill \vfill \hfill \textbf{\Large\color{NavyBlue}The end}
 \end{frame}
 
-\begin{frame} \frametitle{Conclusions}
-polynomial proofs?	
-\end{frame}
 
 \end{document} 
