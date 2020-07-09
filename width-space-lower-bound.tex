@@ -154,7 +154,7 @@ Humboldt University of Berlin\\ % Your institution for the title page
 		$\{\{a, b\}, \{\overline a\}, \{b\}\}$ & Inference\\
 		$\{\{b\}\}$ & Erasure\\
 		$\{\{b\}, \{\overline b\}\}$ & Axiom Download\\
-		$\bot$& Inf.+Er.\\
+		$\{\bot\}$& Inf.+Er.\\
 	  \end{tabular}
 	\end{center} \pause
 	\begin{itemize}[<+->]
@@ -203,7 +203,7 @@ Humboldt University of Berlin\\ % Your institution for the title page
 	\begin{tabular}{p{.25\textwidth}|p{.2\textwidth}|p{.27\textwidth}}
 		Refutation &  Negation & Neg. as a conf.\\ 
 			\midrule
-		$\emptyset$ & $\bot$ & $\bot$\\
+		$\emptyset$ & $\{\bot\}$ & $\{\bot\}$\\
 		%
 		$\{\{a, b\}\}$ &
 		$\overline a \land \overline b$&
@@ -225,7 +225,7 @@ Humboldt University of Berlin\\ % Your institution for the title page
 		$\overline b \lor b$&
 		$\{\cancel{\{\overline b, b\}}\} = \emptyset$\\
 		%
-		$\{\} = \bot$& $\emptyset$ & $\emptyset$\\
+		$\{\bot\}$& $\emptyset$ & $\emptyset$\\
 	\end{tabular}
 	\end{center}}
 \end{frame}
@@ -289,10 +289,10 @@ Humboldt University of Berlin\\ % Your institution for the title page
 	\begin{block}{Lemma~3.6.}
 		If $\mathbb{C} \models \mathbb{C}'$, then for every clause $C \in
 		\nconf(\mathbb{C})$ there exists a clause $C' \in \nconf(\mathbb{C}')$ such that $C$
-		is a weakening of $C'$.
+		is a weakening of $C'$. \hfill $\square$
 	\end{block}
 	\pause
-	Remark. This ensures that erasure and inference do not increase the width over the maximum
+	\textbf{\underline{Remark.}} This ensures that erasure and inference do not increase the width over the maximum
 	width of a clause in a refutation (i.e. at most $s$).
 	\pause
 	\begin{itemize}[<+->]
@@ -324,7 +324,7 @@ Humboldt University of Berlin\\ % Your institution for the title page
 		\item First download $A$ then derive $C$\\
 			from $\mathbb{D}_{t} \cup \{A\}$ as follows.
 		\item Note that each $C \lor \overline a_i$ is\\
-			in or a weakening of a clause in $\mathbb{C}_t$.
+			in or a weakening of a clause in $\mathbb{D}_t$.
 	\end{itemize}
 	\end{minipage}%
 	\hfill%
