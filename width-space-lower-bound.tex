@@ -499,16 +499,93 @@ Humboldt University of Berlin\\ % Your institution for the title page
 			\chi_{_T}}$, the Tseitin formula over $G$ and $T$.
 	\end{itemize}
 \end{frame}
-\begin{frame}{Edge expander}
-	
+\begin{frame}{Edge Expander}
+	\begin{itemize}
+		\item A graph $G = (V, E)$ is an $(s, \delta)$-Edge expander,
+		\item[]\hspace{1cm} if $|\partial(U)| \geq \delta|U|$,  f.a. $U \subseteq V, |U| \leq s$
+	\end{itemize}
+	\pause
+	\begin{block}{Theorem~4.3.}
+		For a Tseitin Formula $T_s(G, \chi)$ over a d-regular $(s, \delta)$-edge expander
+		$G$ it holds that $Sp(T_s(G, \chi)\vdash \bot) \geq \delta s / d$.
+	\end{block}
+	\pause
+	Proof Idea:
+	\begin{itemize}[<+->]
+		\item Define a complexity measure.
+		\item For a good choice of an expander $G$ and $T$,
+		\item $T_s(G,\chi_{_T}) \vdash \bot$ contains a configuration of intermediate
+			complexity.
+		\item Such a configuration has a large size.
+	\end{itemize}
 \end{frame}
 
 \begin{frame} \frametitle{Complexity Measure}
+	We define 
+	\pause
+	\begin{itemize}[<+->]
+		\item the complexity measure for a term $T$
+		$$\nu(T) =\min\{|V'|\colon V'\subseteq V, T \land \bigwedge_{v \in V'}
+			\operatorname{PARITY}_{v, \chi} \models \bot\},$$
+		\item and for a configuratoin $\mathbb{C}$
+		$$\mu(\mathbb{C}) =\max\{\nu(T)\colon T \models \mathbb{C}\}.$$
+		\item $V^* \subseteq V$ is a {\color{red}witness} for $\nu(T)$,\\
+			\hspace{1cm} if $\nu(T) = |V^*|$ and $T \land \bigwedge_{v \in
+			V^*}\operatorname{PARITY}_{v, \chi} \models \bot$.
+		\item A term $T^*$ is a {\color{red}witness} for $\mathbb{C}$,\\
+			\hspace{1cm} if $\mu(\mathbb{C}) = \nu(T)$ and $T^* \models \mathbb{C}$.
+	\end{itemize}
 \end{frame}
 
-\begin{frame} \frametitle{Tseitin formulas have large space}
+\begin{frame}\frametitle{Intermediate complexity configuration}
+	\begin{block} {Lemma~4.6}
+		If $\mathbb{C} \models \mathbb{C}'$, then $\mu(\mathbb{C}) \leq \mu(\mathbb{C}')$.
+	\end{block}
+	(why?)\pause
+	\begin{block} {Lemma~4.7}
+		For a clause $A$ in $T_s(G, \chi)$ and a graph $G$ of bounded degree $d$, if
+		$\mathbb{C'} = \mathbb{C} \cup A$, then $d \cdot \mu(\mathbb{C}') + 1 \geq
+		\mu(\mathbb{C})$.
+	\end{block}\pause
+	\noindent \underline{Proof idea.} 
+	\begin{itemize}
+		\item Fix a witness $T^*$ for $\mu(\mathbb{C})$.
+		\item Show that $\nu(T^*) \leq d\cdot \mu(\mathbb{C}') + 1$. 
+		\item $\mu(\mathbb{C}') \geq \nu(T^* \land a)$ for $a \in A$.
+		\item Suffices to relate $\nu(V^*)$ to $\nu(T^* \land a)$.
+	\end{itemize}
+\end{frame}\frametitle{Intermediate complexity configuration}
+
+\begin{frame}
+	In total we get:
+	\begin{itemize}[<+->]
+		\item $\mu(\emptyset) = |V|$.
+		\item $\mu(\mathbb{C}) = 0,$ for $\bot \in \mathbb{C}$.
+		\item $\mu(\mathbb{C}_i) \geq  \frac{1}{d} (\mu(\mathbb{C}_{i-1}) - 1)$
+	\end{itemize}
+	\pause
+	\begin{block}{Corollary~4.8}
+		For any resolution refutation $\pi$ of a Tseitin formula $T_s(G, \chi)$ over a
+		connected graph $G$ of bounded degree $d$ and any positive integer $r \leq |V|$
+		there exists a configuration $\mathbb{C} \in \pi$ such that the configuration
+		complexity measure is bounded by $r/d \leq \mu(\mathbb{C}) \leq r$.
+	\end{block}\pause
+	\begin{block}{Lemma~4.9}
+		Let $G$ be an $(s, \delta)$-edge expander graph. For every configuration
+		$\mathbb{C}$ satisfying $\mu(\mathbb{C}) \leq s$ it holds that $Sp(\mathbb{C}) \geq
+		\delta \cdot \mu(\mathbb{C})$.
+	\end{block}\pause
+	\noindent \underline{Proof idea.} Lower bound the size of a minimal witness $T^*$ for
+	$\mu(\mathbb{C})$ (expander property).\pause It holds that $Sp(\mathbb{C}) \geq |T^*|$, since at
+	most one literal per clause in $'\mathbb{C}$ is needed in the implying term.
+\end{frame}
+
+\begin{frame} \frametitle{Theorem~3.7 (restated)}
+	\begin{block}{Theorem~3.7.}
+		Let $F$ be a $k$-CNF formula and $\pi : F \vdash \bot$ be an $r$-DNF resolution
+		refutation of $F$ in space $Sp(\pi) \leq s$. Then there exists a resolution
+		refutation $\pi'$ of $F$ in width at most $W(\pi') \leq (s-2)r + k -1$.
+	\end{block}
 	\pause \vfill \vfill \hfill \textbf{\Large\color{NavyBlue}The end}
 \end{frame}
-
-
 \end{document} 
