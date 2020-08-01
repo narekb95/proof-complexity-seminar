@@ -274,10 +274,10 @@ Humboldt University of Berlin\\ % Your institution for the title page
 		\varsubsetneq C \text{ it holds that } \lnot C' \not \models \mathbb{C}.\}$$
 	\end{block}
 	\pause
-	\only<4>{ \noindent Proof Idea. Let $\mathbb{D}$ be the set of minimal clauses whose complements imply
-	$\mathbb{C}$. Show that for $C \in \nconf(\mathbb{C})$ there is a $C' \in \mathbb{D}$ such
-	that $C' \subseteq C$ and vise versa. Since both sets contain only minimal clauses, the
-	claim follows.}
+	\only<4>{ \noindent Proof Idea. Let $\mathbb{D}$ be the set of minimal clauses whose
+	complements imply $\mathbb{C}$. Show that for $C \in \nconf(\mathbb{C})$ there is a $C' \in
+\mathbb{D}$ such that $C' \subseteq C$ and vise versa. Since both sets contain only minimal clauses,
+the claim follows.}
 	\pause
 	\only<5->{ \begin{block}{Observatoin~3.5.}
 		An assignment satisfies a clause configuration $\mathbb{C}$ if and only if it
@@ -292,9 +292,10 @@ Humboldt University of Berlin\\ % Your institution for the title page
 		is a weakening of $C'$. \hfill $\square$
 	\end{block}
 	\pause
-	\textbf{\underline{Remark.}} This ensures that erasure and inference do not increase the width over the maximum
-	width of a clause in a refutation (i.e. at most $s$).
+	\textbf{\underline{Remark.}} This ensures that erasure and inference do not increase the
+	width over the maximum width of a clause in a refutation (i.e. at most $s$).
 	\pause
+	\hrule
 	\begin{itemize}[<+->]
 		\item Let $\pi = (\mathbb{C}_0, \mathbb{C}_1, \dots \mathbb{C}_{\tau})$.
 		\item Let $\pi' = (\mathbb{D}_{\tau}, \dots, \mathbb{D}_0), \mathbb{D}_i =
@@ -302,7 +303,8 @@ Humboldt University of Berlin\\ % Your institution for the title page
 		\item $\bot \in \mathbb{D}_0$ and $\mathbb{D}_{\tau} = \emptyset$.
 		\item {\color{red}Assume} for now that $k \geq 3$.
 		\item If $\mathbb{C}_{t-1} \models \mathbb{C}_{t}$ (Lemma~3.6.),
-		\item[] \hspace{.5cm} $\implies$  $\mathbb{D}_{t-1}$ is a weakening of $\mathbb{D}_t$.
+		\item[] \hspace{.5cm} $\implies$  $\mathbb{D}_{t-1}$ is a weakening of
+			$\mathbb{D}_t$.
 		\item Interesting case: $\mathbb{C}_{t-1} \not \models \mathbb{C}_{t}$
 		\item[] \hspace{.5cm} ($\implies$ Axiom Download at step $t$).
 	\end{itemize}
