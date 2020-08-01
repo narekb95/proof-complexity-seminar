@@ -1,0 +1,117 @@
+% Vorlage für Seminar-Ausarbeitungen
+%
+% Dateiname: Vorlage.tex
+% zuletzt geändert: 11. Februar 2016
+% Autorin: Nicole Schweikardt
+
+% Definition der Dokument-Klasse, in diesem Falle die Klasse SeminarAusarbeitung,
+% die in der Datei SeminarAusarbeitung.cls bereitgestellt wird
+\documentclass{SeminarAusarbeitung}
+
+\title{Clause space vs. width in resolution}
+\author{Narek Bojikian}
+\seminar{Beweiskomplexität}
+\semester{Sommersemester 2020}
+\leitung{Prof.\ Dr.\ Christoph Berkholz} 
+\institut{Institut für Informatik}
+\universitaet{Humboldt-Universität zu Berlin}
+
+\usepackage{bbold}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{natbib}
+\usepackage{caption}
+\usepackage{tikz}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+	In this report we summarize our presentation of the paper "From Small Space to Small Width
+	in Resolution" by Yuval Filmus, et al. \cite{DBLP:journals/tocl/FilmusLMNV15}. We focus on
+	the first part of the paper, where the authors provide a constructive proof that resolution
+	refutations of low clause space imply refutations of low width. We end with a brief
+	go-through of the results in the second part of the paper.
+\end{abstract}
+
+\section{Introduction}
+Proof systems have been prominent in computer science, as a tool to solve the satisfiability problem
+and as a method to prove unsatisfiability of boolean formulas. One of the most popular proof systems
+is resolution. It refutes CNF-formulas and it is the base of the DPLL-Algorithm. It is well-studied
+in theoretical computer science. For example, exponential lower-bounds have been proved for the
+length of resolution refutations of the pigeonhole principle [todo]cite{}. Along side the length of
+the proof, other complexity measurements of such proofs have been introduced and well studied. Among
+others are width, depth and clause space.
+
+In the paper of our interest, the authors show that a refutation of low clause space yields a
+refutation of low width. A result that had been proven by A. Atserias and V. Dalmau in 2007
+[todo]cite{}. In the current paper however, the authors present a constructive proof by manipulating
+a given refutation of low space to achieve a refutation of low width. They also generalize the proof
+to the $r$-DNF proof system. In the second part of the paper, the authors use this method to prove
+lower-bounds on the space of refuting Tseitin formulas -a class of formulas that we define later in
+this report- using well-known lower-bounds on the width of these formulas. As in the presentation,
+we focus on the first part of the paper presenting the techniques developed by the authors. We
+finish by a short summary of the results of the second part.  On a side note, the authors also
+present in the third part of the paper an analysis of the polynomial calculus proof system, where
+they show that similar results are not probably easy to achieve in this system. We skip this part in
+our summary, since no major results were proven there, in order to keep more space to the main
+results of the paper.
+
+\section{Preliminaries and notation}
+We begin this section with formal definitions of formulas, normal forms and assignments. We follow
+that by defining the previously mentioned proof systems.
+\subsection{Boolean formulas and assignments}
+\begin{itemize}
+	\item A Boolean formula $\varphi$ is a Boolean combination of a given
+		set of variables $\operatorname{Var}(\varphi) := x_1, \dots, x_n$ and
+		constants $\mathbb{0}$ and $\mathbb{1}$.
+	\item An assignment $\tau$ of $\varphi$ is a Boolean function that assigns to
+		each variable of the formula a Boolean value
+		$$\tau:\operatorname{Var}(\varphi) \rightarrow \{\mathbb{0,
+		1}\}.$$ We write $\tau \models \varphi$ for $\tau$ satisfies
+		$\varphi$.
+	\item An assignment $\tau$ satisfies a given formula $\varphi$ if and only
+		if $[\varphi]^{\tau} = \mathbb{1}$.
+	\item A formula is in the negation normal form (\textbf{NNF}), if it
+		contains only disjunctions and conjunctions of positive or
+		negative literals.
+	\item A formula is in the conjunctive normal form (\textbf{CNF}), if it
+		is a conjunction of one or more clauses, where each clause is a
+		disjunction of one or more literals.
+	\item Given a formula $\varphi$ along with an assignment $\tau$ for
+		$\varphi$. Let $V \subseteq \operatorname{Var} (\varphi)$ be a
+		subset of variables. We define the partial assignment
+		$\tau_{|V}$ as the restriction of $\tau$ to $V$, i.e.
+		$$\tau_{|V}:V\rightarrow \{\mathbb{0}, \mathbb{1}\}:x\mapsto
+		\tau(x).$$
+		
+	\item[-] For a formula $\varphi$ in CNF and a partial assignment
+		$\tau_{|V}$, we say that $\tau_{|V}$ satisfies $\varphi$ if for
+		each clause $C$ in $\varphi$, there is a literal $a \in C$ where
+		$tau_{|V} \models a$.
+\end{itemize}
+
+
+\subsection{Resolution proof system and r-DNF}
+
+
+
+
+\section{Conclusion}
+In conclusion, we have seen two methods to approach the \#SAT problem. We have
+seen that the method that had been used frequently to prove efficient running
+time in some classes of graphs was inefficient for our targeted class with a
+lower-bound on the size of the resulting circuit. On the other hand, we have
+also seen that the practical method can turn efficient in theory if a right
+elimination order was chosen. One related open question studied in the given
+paper is whether all classes, where the theoretical method proved efficient, are
+also efficient using the practical Method DPLL by finding a corresponding
+elimination ordering and a suitable caching method. Note that the elimination
+ordering was natural in the $\beta$-acyclic formulas using a reversed
+$\beta$-elimination ordering.
+
+\bibliographystyle{plain}
+\bibliography{ref.bib}
+\end{document}
+
