@@ -23,6 +23,10 @@
 \usepackage{natbib}
 \usepackage{caption}
 \usepackage{tikz}
+\usepackage{bussproofs}
+\usepackage{proof}
+
+\newcommand{\conf}{\mathbb{C}}
 
 \begin{document}
 
@@ -66,50 +70,87 @@ that by defining the previously mentioned proof systems.
 	\item A Boolean formula $\varphi$ is a Boolean combination of a given
 		set of variables $\operatorname{Var}(\varphi) := x_1, \dots, x_n$ and
 		constants $\mathbb{0}$ and $\mathbb{1}$.
-	\item An assignment $\tau$ of $\varphi$ is a Boolean function that assigns to
+	\item An assignment $\alpha$ of $\varphi$ is a Boolean function that assigns to
 		each variable of the formula a Boolean value
-		$$\tau:\operatorname{Var}(\varphi) \rightarrow \{\mathbb{0,
-		1}\}.$$ We write $\tau \models \varphi$ for $\tau$ satisfies
+		$$\alpha\operatorname{Var}(\varphi) \rightarrow \{\mathbb{0,
+		1}\}.$$ We write $\alpha \models \varphi$ for $\alpha$ satisfies
 		$\varphi$.
-	\item An assignment $\tau$ satisfies a given formula $\varphi$ if and only
-		if $[\varphi]^{\tau} = \mathbb{1}$.
+	\item An assignment $\alpha$ satisfies a given formula $\varphi$ if and only
+		if $[\varphi]^{\alpha} = \mathbb{1}$.
 	\item A formula is in the negation normal form (\textbf{NNF}), if it
 		contains only disjunctions and conjunctions of positive or
 		negative literals.
 	\item A formula is in the conjunctive normal form (\textbf{CNF}), if it
 		is a conjunction of one or more clauses, where each clause is a
 		disjunction of one or more literals.
-	\item Given a formula $\varphi$ along with an assignment $\tau$ for
+	\item[-] A $d$-CNF formula is a CNF-formula, where each clause contains at most $d$ literals.
+	\item A formula is in the disjunctive normal form (\textbf{DNF}), if it
+		is a conjunction of one or more clauses, where each clause is a
+		disjunction of one or more literals.
+	\item[-] A $d$-DNF formula is a DNF-formula, where each term contains at most $d$ literals.
+	\item Given a formula $\varphi$ along with an assignment $\alpha$ for
 		$\varphi$. Let $V \subseteq \operatorname{Var} (\varphi)$ be a
 		subset of variables. We define the partial assignment
-		$\tau_{|V}$ as the restriction of $\tau$ to $V$, i.e.
-		$$\tau_{|V}:V\rightarrow \{\mathbb{0}, \mathbb{1}\}:x\mapsto
-		\tau(x).$$
+		$\alpha_{|V}$ as the restriction of $\alpha$ to $V$, i.e.
+		$$\alpha_{|V}:V\rightarrow \{\mathbb{0}, \mathbb{1}\}:x\mapsto
+		\alpha(x).$$
 		
-	\item[-] For a formula $\varphi$ in CNF and a partial assignment
-		$\tau_{|V}$, we say that $\tau_{|V}$ satisfies $\varphi$ if for
-		each clause $C$ in $\varphi$, there is a literal $a \in C$ where
-		$tau_{|V} \models a$.
+	\item[-] Given a CNF-formula $\varphi$ and a partial assignment $\alpha_{|V}$, we say that
+		$\alpha_{|V}$ satisfies $\varphi$ if for each clause $C$ in $\varphi$, there is a
+		literal $a \in C$ where $\alpha_{|V} \models a$.
 \end{itemize}
 
 
-\subsection{Resolution proof system and r-DNF}
+\subsection{Resolution proof system and r-DNF resolution}
+Now we formally introduce resolution refutation. We call a set of clauses a configuration. Given a
+CNF-formula $F$, a refutation of $F$ is a sequence of configurations $\conf_0, \dots \conf_{\tau}$
+such that
+\begin{itemize}
+	\item $\conf_0 = \emptyset$.
+	\item $\bot \in \conf_{\tau}$.
+	\item $\conf_i$ results from $\conf_{i-1}$ by one of the following rules:
+		\begin{itemize}
+			\item Axiom downlaod. $\conf_i = \conf_{i-1} \cup \{A\}; A \in F \setminus
+				\conf_{i-1}$.
+			\item Erasure. $\conf_i = \conf_{i-1} \setminus \{A\}; A \in \conf_{i-1}$.
+			\item Inference. $\conf_i = \conf_{i-1} \cup \{A\}$, where $A \notin
+				\conf_{i-1}$ inferred by one of the following rules:
+				\begin{enumerate}
+					\item $\infer{G\lor H}{\overline{\alpha}\lor G & \alpha \lor
+						H}$, where $G$ and $H$ are two arbitrary clauses.
+					\item $\infer{G\lor H}{G}$, for an aribrary clause $G$ and
+						any clause $H$.
+				\end{enumerate}
+		\end{itemize}
+\end{itemize}
+Intuitively, configurations along a refutation are sets of clauses implied by the given CNF-formula
+that we use to refute it. We use erasure to keep the clause space of a refutation bounded, and
+hence, in an optimal refutation a configuration is the set of all clauses derived until the step $i$
+that will be needed in steps later than $i$. It is not hard to see that the resolution proof system
+is correct and complete.
 
+Now that we have introduced resolution, we list the most common complexity measures of a resolution
+proof. We have already mentioned these measures above and we shall use them to present the results
+later in this report. Let $\pi$ be a given refutation of a formula $F$. First we define the
+\textbf{Length} of the refutation $L(\pi)$ as the number of non-erasure steps in the refutation. The
+\textbf{Width} of a refutation $W(\pi)$ is the maximum number of literals in a clause in the
+refutation. The \textbf{clause space} $Sp(\pi)$ of the refutation $\pi$ is the largest configuration
+along $\pi$. We define each of the previous measures over a CNF-formula as the minimum of this
+measure over all refutations of this formula or $\infty$ if the formula is satisfiable.
 
+Now similar to the resolution proof system, we define the $d$-DNF resotluion as follows
 
+...[todo]
+
+Note that each clause is a $1$-DNF formula, and hence, $d$-DNF is a generalization of resolution.
+Clearly the rules [todo] correspond to [todo], meanwhile [todo] are not relevant in the resolution
+case.
+
+\section{Width as a lower bound for space}
+
+\section{Lower-bounds on clause-space}
 
 \section{Conclusion}
-In conclusion, we have seen two methods to approach the \#SAT problem. We have
-seen that the method that had been used frequently to prove efficient running
-time in some classes of graphs was inefficient for our targeted class with a
-lower-bound on the size of the resulting circuit. On the other hand, we have
-also seen that the practical method can turn efficient in theory if a right
-elimination order was chosen. One related open question studied in the given
-paper is whether all classes, where the theoretical method proved efficient, are
-also efficient using the practical Method DPLL by finding a corresponding
-elimination ordering and a suitable caching method. Note that the elimination
-ordering was natural in the $\beta$-acyclic formulas using a reversed
-$\beta$-elimination ordering.
 
 \bibliographystyle{plain}
 \bibliography{ref.bib}
