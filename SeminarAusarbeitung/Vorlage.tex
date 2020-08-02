@@ -27,6 +27,7 @@
 \usepackage{proof}
 
 \newcommand{\conf}{\mathbb{C}}
+\newcommand{\negc}[1]{\operatorname{neg}({#1})}
 
 \begin{document}
 
@@ -138,15 +139,144 @@ refutation. The \textbf{clause space} $Sp(\pi)$ of the refutation $\pi$ is the l
 along $\pi$. We define each of the previous measures over a CNF-formula as the minimum of this
 measure over all refutations of this formula or $\infty$ if the formula is satisfiable.
 
-Now similar to the resolution proof system, we define the $d$-DNF resotluion as follows
+We define the $d$-DNF resolution as a generalization of resolution, where we are given a CNF-formula
+and the configurations are allowed to be sets $k$-DNF-formulas for $k \leq d$ instead of sets of
+clauses.  Note that a clause is a $1$-DNF formula, and hence, $d$-DNF is a generalization of
+resolution. In order to get use of the relaxation we define the following four inference rules
+instead of the previous two in resolution: Let $G, G'$ and $H$ be arbitrary $d$-DNF formulas and $T,
+T'$ arbitrary terms.
+	\begin{enumerate}
+		\item r-cut. $\infer{G\lor H}{(a_1\land\dots \land a_{r'})\lor G
+			&\overline{a}_1 \lor \dots \lor \overline{a}_{r'} \lor
+			H}$, where $r'\leq r$.
+		\item Weakening. $\infer{G\lor H}{G}$, for any $r$-DNF $H$.
+		\item $\land$-introduction. $\infer{G \lor (T \land T')}{G\lor T &G \lor T'}$, for
+			$|T\cup T'| \leq r$.
+		 \item $\land$-elimination. $\infer{G \lor T'}{G\lor T}$, for nonempty
+			 $T' \subseteq T$.
+	\end{enumerate}
 
-...[todo]
-
-Note that each clause is a $1$-DNF formula, and hence, $d$-DNF is a generalization of resolution.
-Clearly the rules [todo] correspond to [todo], meanwhile [todo] are not relevant in the resolution
-case.
+	Clearly r-cut correspond to the first resolution rule and weakening to the second one,
+	meanwhile $\land$-introduction and $\land$-elimination make use of the fact that we allow
+	terms here and are not relevant in the resolution case.
 
 \section{Width as a lower bound for space}
+Now we are ready to preset the main results in the paper. We begin with the main theorem. We flow it
+with a couple of auxiliary lemmas and then sketch the proof of the theorem. We generalize the lemma
+after that to span the $d$-DNF resolution and show how to generalize the proof to span this case.
+\begin{theorem}[Theorem~3.1 cf. Asterias and Dalmau, 2008 cite] [todo]\label{theo:main1}
+
+	Let $F$ be a $k$-CNF formula and let $\pi : F \vdash \bot$ be a resolution refutation in
+	clause space $Sp(\pi) = s$. Then, there is a resolution refutation $\pi'$ of $F$ in width
+	$W(\pi') \leq s + k - 3$.
+\end{theorem}
+Intuitively, we derive $\pi'$ from $\pi$ by negating all configurations, and writing them back as
+sets of clause in the reverse order. We bound the width of the resulting clauses by the number of
+clauses in a configuration in $\pi$. We show that the resulting derivation is almost valid and we
+show how to make it a valid derivation with increasing the width more than $k - 3$.
+
+In order to preset the proof formally, we start by defining the negation of a configuration. We
+define $\negc{\mathbb{C}}$ of a clause configuration $\mathbb{C}$ recursively as follows:
+\begin{itemize}
+	\item $\negc{\emptyset} = \{\bot\}$.
+	\item $ \negc{\mathbb{C} \cup \{C\}} = \{\underbrace{D \lor \overline a | D \in
+			\negc{\mathbb{C}}; a \in C \setminus D }_{(*)};
+		\underbrace{\not \exists B \in \negc{\mathbb{C}} s.t. B \lor \overline
+			a \varsubsetneq D \lor \overline a}_{(**)}\},$
+\end{itemize}
+where $(*)$ says that a clause is in $\negc{\mathbb{C}}$ if its negation implies the clauses in
+$\mathbb{C}$ (Proposition~\ref{prop:neg}), and $(**)$ ensures the minimality of the clauses in
+$\negc{\mathbb{C}}$ by ignoring subsumed clauses.
+
+\begin{observation}[Obersvation 3.3.]\label{obs:width}
+	The width of any clause in the negated configuration $\negc{\mathbb{C}}$ is at most
+	$Sp(\mathbb{C}) = |\mathbb{C}|$.
+\end{observation}
+In order to see this, note that each clause in $\mathbb{C}$ contributes at most one literal to a
+clause in the negated configuration.$\hfill \square$
+
+\begin{proposition}[Proposition 3.4.]\label{prop:neg}
+	The negtaed configuration $\negc{\mathbb{C}}$ is the set of all minimal (nontrivial clauses
+	$C$ such that $\lnot C$ implies the configuration $\mathbb{C}$.
+\end{proposition}
+\noindent\underline{Proof idea.} Set $\mathbb{D}$ to be the set of all minimal clauses whose
+complements imply $\mathbb{C}$. Show that for each clause $C \in \negc{\mathbb{C}}$ there is a
+clause in $\mathbb{D}$ that subsumes $C$ and vise versa. By the minimality of both sets we get
+$\mathbb{D} = \negc{\mathbb{C}}$ \hfill $\square$.
+
+
+\begin{observation}[Observation 3.5.]
+	An assignment satisfies a clause configuration $\mathbb{C}$ if and only if it falsifies the
+	negated clause configuration $\negc{\mathbb{C}}$. That is, $\mathbb{C}$ is logically
+	equivalent to $\lnot\negc{\mathbb{C}}$.\hfill$\square$
+\end{observation}
+
+Now we use the following lemma to show that the negations of the configuratoins in a refutation $\pi$
+in the reverse order build an almost valid refutation. Namely, the lemma covers inference and
+deletion steps.
+\begin{lemma}
+	If $\mathbb{C} \models \mathbb{C}'$, then for every clause $C \in \negc{\mathbb{C}}$ there
+	exists a clause $C' \in \negc{\mathbb{C}'}$ such that $C$ is a weakening of $C'$.
+	\hfill$\square$
+\end{lemma}
+
+\noindent\underline{Proof sketch. (Theorem~\ref{theo:main1})}Now we are ready to sketch the proof of
+Theorem~\ref{theo:main1}. Given a refutation $\pi = (\mathbb{C}_0, \dots, \mathbb{C}_{\tau})$ of
+clause space at most $s$. Let $\pi' := (\mathbb{D}_{\tau}, \dots, \mathbb{D}_0)$, where
+$\mathbb{D}_i = \negc{\mathbb{C}_i}$ for $i \in \mathbb{N}_{\leq \tau}$. By the definition of
+$\operatorname{neg}$ we know that $\bot \in \mathbb{D}_0$ and $\mathbb{D}_{\tau} = \emptyset$.
+Hence, it suffices to proof that each configuration is a valid result of the preceding one. If
+$\mathbb{C}_{t-1} \models \mathbb{C}_t$, by the previous lemma we know that each clause in
+$\mathbb{D}_{t-1}$ is a weakening of a clause in $\mathbb{D}_{t}$ and hence $\mathbb{D}_{t-1}$
+follows from $\mathbb{D}_t$ through weakening and erasures with does not increase the width of the
+refutation above the width of the clauses in both configurations. Since this covers inference and
+erase steps (resulting configurations follow from the original one), the only case we still have to
+inspect is axiom-download. First assume that $k \geq 3$. In the following claim, we assume that
+$\mathbb{C}_t$ results from $\mathbb{C}_{t-1}$ through an axiom-download and show that we can derive
+$\mathbb{D}_{t-1}$ from $\mathbb{D}_t$ without increasing the width over $s + k - 3$.
+
+\begin{claim}
+	If $\mathbb{C}_t$ results from $\mathbb{C}_{t-1}$ through an axiom-download step, it follows
+	that $W(\mathbb{D}_t \vdash \mathbb{D}_{t-1}) \leq s + k - 3$.
+\end{claim}
+\noindent\underline{Proof sketch.} First we can assume that before each axiom-download we have $Sp(\mathbb{C}_{t-1}) \leq s-2$, since
+after the axiom download the width will increase at least by one and if it was $s-1$, either the
+same clause or another clause will get removed directly after the download. In the former case we
+skip the whole step meanwhile in the other we do the erasure step before the axiom-download.
+
+Let $\mathbb{C}_t = \mathbb{C}_{t-1} \cup A; A = \{a_1, \dots, a_{\ell}\} \in F, \ell \leq k$.
+Choose $C \in \mathbb{D}_{t-1} \setminus \mathbb{D}_t$. Due to Observation~\ref{obs:width} we have
+$W(C) \leq Sp(\mathbb{C}_{t-1}) \leq s-2$. First download $A$ then derive $C$ from $\mathbb{D}_t
+\cup \{A\}$ as follows: (note that each $C\lor \overline a_i$ is in or a weakening of a clause in
+$\mathbb{D}_t$)
+$$
+\infer{C}{
+%
+	\infer{\begin{aligned}C \lor a_3 \lor& \dots \lor a_{\ell}\\ &\vdots\\ C &\lor
+	a_{\ell} \end{aligned}}
+	{
+		\infer{C \lor a_2 \lor \dots \lor a_{\ell}}
+		{A & C\lor \overline a_1}
+		&C \lor \overline a_2
+	}
+%
+%
+& \begin{aligned}\vphantom{A}\\ \vphantom{\vdots}\\ C \lor \overline
+a_{\ell}\end{aligned}}%
+$$
+Now if $C = \emptyset$, then the width is bounded by $W(A) \leq k$. Else, the width is bounded by
+$W(C) + W(A) - 1 \leq s + k - 3$. \hfill $\square$
+Now if $k \leq 3$ we have $s\geq s + k - 3$. However, in this case it suffices to remove all
+weakening steps in the derivation and still get a valid derivation. In this case we can bound the
+width in $\max\{k, s + k - 3\} = s + k - 3$. \hfill $\square$
+
+In the following theorem, we generalize the previous result to $d$-DNF resolution.
+\begin{theorem}[Theorem~3.7.]
+	Let $F$ be a $k$-CNF formula and $\pi : F \vdash \bot$ be a $d$-DNF resolution refutation
+	of $F$ in space $Sp(\pi) \leq s$. Then there exists a resolution refutation $\pi'$ of $F$ in
+	width at most $W(\pi') \leq (s-2)d + k - 1$.
+\end{theorem}
+First we define the negation of $d$-DNF configuration as follows
 
 \section{Lower-bounds on clause-space}
 

@@ -94,7 +94,7 @@ Leitung: \@leitung \\
 \newtheorem*{satz*}{Satz}
 \newtheorem{proposition}[satz]{Proposition}
 \newtheorem*{proposition*}{Proposition}
-\newtheorem{theorem}[satz]{theorem}
+\newtheorem{theorem}[satz]{Theorem}
 \newtheorem*{theroem*}{Theorem}
 \newtheorem{lemma}[satz]{Lemma}
 \newtheorem*{lemma*}{Lemma}
@@ -104,6 +104,10 @@ Leitung: \@leitung \\
 \newtheorem*{corollary*}{Corollary}
 \newtheorem{vermutung}[satz]{Vermutung}
 \newtheorem*{vermutung*}{Vermutung}
+\newtheorem{observation}[satz]{Observation}
+\newtheorem*{observation*}{Observation}
+\newtheorem{claim}[satz]{Claim}
+\newtheorem*{claim*}{Claim}
 
 \theoremstyle{definition}
 \newtheorem{definition}[satz]{Definition}
