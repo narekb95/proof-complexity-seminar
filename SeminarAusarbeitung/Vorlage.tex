@@ -28,6 +28,8 @@
 
 \newcommand{\conf}{\mathbb{C}}
 \newcommand{\negc}[1]{\operatorname{neg}({#1})}
+\newcommand{\negd}[1]{\operatorname{neg}_{\mathcal R(d)}({#1})}
+\newcommand{\prty}{\operatorname{PARITY}}
 
 \begin{document}
 
@@ -45,23 +47,23 @@ Proof systems have been prominent in computer science, as a tool to solve the sa
 and as a method to prove unsatisfiability of boolean formulas. One of the most popular proof systems
 is resolution. It refutes CNF-formulas and it is the base of the DPLL-Algorithm. It is well-studied
 in theoretical computer science. For example, exponential lower-bounds have been proved for the
-length of resolution refutations of the pigeonhole principle [todo]cite{}. Along side the length of
-the proof, other complexity measurements of such proofs have been introduced and well studied. Among
-others are width, depth and clause space.
+length of resolution refutations of the pigeonhole principle \cite{DBLP:journals/tcs/Haken85}. Along
+side the length of the proof, other complexity measurements of such proofs have been introduced and
+well studied. Among others are width, depth and clause space.
 
 In the paper of our interest, the authors show that a refutation of low clause space yields a
-refutation of low width. A result that had been proven by A. Atserias and V. Dalmau in 2007
-[todo]cite{}. In the current paper however, the authors present a constructive proof by manipulating
-a given refutation of low space to achieve a refutation of low width. They also generalize the proof
-to the $r$-DNF proof system. In the second part of the paper, the authors use this method to prove
-lower-bounds on the space of refuting Tseitin formulas -a class of formulas that we define later in
-this report- using well-known lower-bounds on the width of these formulas. As in the presentation,
-we focus on the first part of the paper presenting the techniques developed by the authors. We
-finish by a short summary of the results of the second part.  On a side note, the authors also
-present in the third part of the paper an analysis of the polynomial calculus proof system, where
-they show that similar results are not probably easy to achieve in this system. We skip this part in
-our summary, since no major results were proven there, in order to keep more space to the main
-results of the paper.
+refutation of low width. A result that had been proven by A. Atserias and V. Dalmau in 2003
+\cite{DBLP:journals/jcss/AtseriasD08}. In the current paper however, the authors present a
+constructive proof by manipulating a given refutation of low space to achieve a refutation of low
+width. They also generalize the proof to the $r$-DNF proof system. In the second part of the paper,
+the authors use this method to prove lower-bounds on the space of refuting Tseitin formulas -a class
+of formulas that we define later in this report- using well-known lower-bounds on the width of these
+formulas. As in the presentation, we focus on the first part of the paper presenting the techniques
+developed by the authors. We finish by a short summary of the results of the second part.  On a side
+note, the authors also present in the third part of the paper an analysis of the polynomial calculus
+proof system, where they show that similar results are not probably easy to achieve in this system.
+We skip this part in our summary, since no major results were proven there, and suffice to mention
+the intuition behind it at the end.
 
 \section{Preliminaries and notation}
 We begin this section with formal definitions of formulas, normal forms and assignments. We follow
@@ -164,7 +166,8 @@ T'$ arbitrary terms.
 Now we are ready to preset the main results in the paper. We begin with the main theorem. We flow it
 with a couple of auxiliary lemmas and then sketch the proof of the theorem. We generalize the lemma
 after that to span the $d$-DNF resolution and show how to generalize the proof to span this case.
-\begin{theorem}[Theorem~3.1 cf. Asterias and Dalmau, 2008 cite] [todo]\label{theo:main1}
+\begin{theorem}[Theorem~3.1 cf. Asterias and Dalmau, 2008 \cite{DBLP:journals/jcss/AtseriasD08}]
+	\label{theo:main1}
 
 	Let $F$ be a $k$-CNF formula and let $\pi : F \vdash \bot$ be a resolution refutation in
 	clause space $Sp(\pi) = s$. Then, there is a resolution refutation $\pi'$ of $F$ in width
@@ -214,7 +217,7 @@ $\mathbb{D} = \negc{\mathbb{C}}$ \hfill $\square$.
 Now we use the following lemma to show that the negations of the configuratoins in a refutation $\pi$
 in the reverse order build an almost valid refutation. Namely, the lemma covers inference and
 deletion steps.
-\begin{lemma}
+\begin{lemma}\label{lem:weakening}
 	If $\mathbb{C} \models \mathbb{C}'$, then for every clause $C \in \negc{\mathbb{C}}$ there
 	exists a clause $C' \in \negc{\mathbb{C}'}$ such that $C$ is a weakening of $C'$.
 	\hfill$\square$
@@ -271,18 +274,134 @@ weakening steps in the derivation and still get a valid derivation. In this case
 width in $\max\{k, s + k - 3\} = s + k - 3$. \hfill $\square$
 
 In the following theorem, we generalize the previous result to $d$-DNF resolution.
-\begin{theorem}[Theorem~3.7.]
+\begin{theorem}[Theorem~3.7.]\label{theo:ddnf}
 	Let $F$ be a $k$-CNF formula and $\pi : F \vdash \bot$ be a $d$-DNF resolution refutation
 	of $F$ in space $Sp(\pi) \leq s$. Then there exists a resolution refutation $\pi'$ of $F$ in
 	width at most $W(\pi') \leq (s-2)d + k - 1$.
 \end{theorem}
-First we define the negation of $d$-DNF configuration as follows
+First we define the negation of a $d$-DNF configuration as follows
+\begin{itemize}
+	\item $\negd{a} = \{\bot\}$.
+	\item $\negd{\mathbb{C}\cup \{C\}} = \{D \lor \overline T| D \in \negd{\mathbb{C}}; T \in
+		C; \not\exists B \in \negd{\mathbb{C}} \text{ s.t. } B \lor
+	\overline T \varsubsetneq D \lor \overline T ; D\lor \overline T \text{ nontrivial}\}$.
+\end{itemize}
+Considering terms as literals, $\negd{\mathbb{C}}$ is the set of all minimal clauses $D$ such that
+$\lnot D \models \mathbb{C}$.
+
+\noindent\underline{Proof idea (Theorem~\ref{theo:ddnf})} An $d$-DNF configuration of space $s$ can
+be easily transformed into a resolution configuration of width $s\cdot d$. Hence, all the previous
+results can be proved again for $d$-DNF resolution under a factor $r$ increase in the bounds. Axiom
+downloads can be hence handled in the same way and inference and erasure steps follow in a similar
+way to Lemma~\ref{lem:weakening}. In total we get a bound of $(s-2)d + k - 1$, where again in case
+of $k < 2r + 1$ additional pruning is required as well.\hfill $\square$
 
 \section{Lower-bounds on clause-space}
+In this section, the authors use the previous results to provide a static technique to prove space
+lower-bounds. They use this technique to prove a space lower-bound on refuting Tseitin formulas. In
+order to achieve this, they introduce a new complexity measure and show that any refutation of
+Tseitin a well-chosen Tseitin formula contains a configuration of intermediate complexity. They
+follow that by proving, that such a configuration must have a large clause-space. We begin by
+introducing Tseitin formulas.
+\begin{definition}[Tseitin formula]
+	Let $G = (V, E)$ be an undirected graph and $\chi : V \rightarrow \{0, 1\}$ be a function. Let
+	us identify every edge $e \in E$ with a variable $x_e$, and let us write $\prty_{v, \chi}$
+	to denote the canonical CNF encoding of the constrain $\sum_{e\ni v}x_e = \chi(v)
+	\quad(\operatorname{mod} 2)$ for any vertex $v \in V$. Then the Tseitin formula over $G$
+	with respect to $\chi$ is $Ts(G, \chi) = \bigwedge_{v \in V}\prty_{v, \chi}$.
+\end{definition}
+
+Note that $\prty_{v, \chi}$ has at most $2^{|\delta(x)|-1} \leq 2^{d-1}$ many clauses, for $d$ an
+upper-bound over the degrees of the vertices in $G$. For $U \subseteq V$, let us say $U$ has even
+(odd) charge, if $\sum_{u \in U} \chi(u)$ is even (odd). Since the sum of the degrees of the
+vertices in a graph is even, $Ts(G, \chi)$ is clearly unsatisfiable if $V$ has odd charge. On the
+other hand, if $V$ has even charge then $Ts(G, \chi)$ is always satisfiable.
+
+Now we introduce the expansion property of graphs, depending on which we show the hardness of
+Tseitin formulas.
+\begin{definition}[Edge expander]
+	The graph $G = (V, E)$ is an $(s, \delta)$-edge expander if for every set of vertices $U
+	\subseteq V$ such that $|U| leq s$ it holds that $|\partial(U)| \geq \delta|U|$.
+\end{definition}
+Now we preset the main theorem of this section.
+\begin{theorem}\label{theo:tseitin}
+	For a Tseitin formula $Ts(G, \chi)$ over a $d$-regular $(s, \delta)$-edge epxander $G$ it
+	holds that $Sp(Ts(G,\chi)) \geq \delta s/d$.
+\end{theorem}
+
+In order to sketch the proof, we need one more definition, namely the complexity measure introduced
+by the authors.
+\begin{definition}[Configuratoin complexity measure]
+	The term complexity measure $\nu(T)$ of a term $T$ is $\nu(T) = \min\{|V'|:V' \subseteq V
+	\text{ and } T \land \bigwedge_{v \in V'} \prty_{v, \chi} \models \bot\}$.
+	
+	The configuration complexity measure $\mu(\mathbb{C})$ of a resolution configuration
+	$\mathbb{C}$ is defined as $\mu(\mathbb{C}) = \max\{\nu(T): T \models \mathbb{C}\}$. When
+	$\mathbb{C}$ is contradictory we have $\mu(\mathbb{C}) = 0$.
+\end{definition}
+Clearly, $\nu$ is a monotone decreasing function, since $T \subseteq T'$ implies $\nu(T) \geq
+\nu(T')$. Hence, in order to determine $\mu(\mathbb{C})$ it suffices to consider minimal terms $T$
+for which $T \models \mathbb{C}$. These minimal terms are the negations of the terms in
+$\negc{\mathbb{C}}$ as seen in the Proposition~\ref{prop:neg}.
+\begin{definition}[Witness of measure.]
+	A witness of the measure $\nu(T)$ of the term $T$ is a set of vertices $V^*$ for which
+	$\nu(T) = |V^*|$ and $T \land \bigwedge_{v \in V^*}\prty_{v, \chi} \models \bot$. Similarly,
+	for configurations $\mathbb{C}$ a witness for $\mu(\mathbb{C})$ is a term $T^*$ for which
+	$\mu(\mathbb{C}) = \nu(T^*)$ and $T^* \models \mathbb{C}$.
+\end{definition}
+
+Now we present a sequence of results without stating the proofs. The proofs follow from the
+definition of witnesses and complexity measures. We refer to the original papers for
+more details. We follow the lemmas with a corollary that builds the main part of the proof the
+previous theorem.
+\begin{lemma}
+	If $\mathbb{C} \models \mathbb{C}'$, then $\mu(\mathbb{C} \leq \mu(\mathbb{C}')$.
+	\hfill $\square$
+\end{lemma}
+\begin{lemma}
+	For a claues $A$ in $Ts(G, \chi)$ and a graph $G$ of bounded degree $d$, if $\mathbb{C}' =
+	\mathbb{C} \cup \{A\}$, then $d\cdot \mu(\mathbb{C}') \geq \mu(\mathbb{C})$.
+	\hfill $\square$
+\end{lemma}
+\begin{corollary}\label{cor:intermecdiatecomplexity}
+	For any resolution refutation $\pi$ of a Tseitin formula $Ts(G, \chi)$ over a connected
+	graph $G$ of bounded degree $d$ and any positive integer $r \leq |V|$ there exists a
+	configuration $\mathbb{C} \in \pi$ such that the configuration complexity measure is bounded
+	by $r/d \leq \mu(\mathbb{C} \leq r$.
+\end{corollary}
+The corollary follows from the previous lemma and the fact that there is a big gap between the
+measure of the initial and final configurations, since we start with a configuration of measure
+$|V|$ and reach a configuration of measure $0$ at the end. The previous lemma says that the measure
+drops by factor at most $d$ in each step which implies that corollary. Now that we proved that every
+resolution refutatoin of the Tseitin formula has a configuration of intermediate complexity, it
+remains to show that a configuration having intermediate measure must also have large space. this
+part of the proof relies on the expander property.
+
+\begin{lemma}\label{lem:expanderspace}
+	Let $G$ be an $(s, \delta)$-edge expander graph. For every configuration $\mathbb{C}$
+	satisfying $\mu(\mathbb{C}) \leq s$ it holds that $Sp(\mathbb{C}) \geq \delta \cdot
+	\mu(\mathbb{C})$.\hfill $\square$
+\end{lemma}
+Coroolary~\ref{cor:intermecdiatecomplexity} together with Lemma~\ref{lem:expanderspace} imply
+directly Theorem~\ref{theo:tseitin}.\hfill $\square$ (choose $r = s$ for the corollary).
 
 \section{Conclusion}
+In this report we have seen, that the width of refuting a CNF-formula is a lower-bound on the
+clause-space of refuting it under resolution. The result was generalized to $d$-DNF resolution. The
+authors inspect the same bound in polynomial calculus. They show, that for pebbling formulas,
+manipulating the refutation as seen in the report yields a duality between top-down and bottom up
+refutations of these formulas. Meanwhile this duality is valid for top-down bounded space and bottom up
+bounded degree refutations, there exists a bottom-up constant space refutation in polynomial calculus
+meanwhile it seems unlikely, that a constant width top-down refutation exists as the authors argue.
+Hence, such a duality might not exist in polynomial calculus and the approach might fail when
+applied to polynomial calculus.
+
+
+
+
+
+
 
 \bibliographystyle{plain}
 \bibliography{ref.bib}
 \end{document}
-
